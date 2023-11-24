@@ -6,6 +6,9 @@ import CityPicker from '../components/CityPicker';
 import MyCheckboxForm from '../components/MyCheckboxForm';
 import InfoText from '../components/InfoText';
 
+import { useDispatch } from 'react-redux';
+import { addFormData } from './HomeScreenSlice';
+
 
 function validateTCKN(tcNo) {
   // TC Kimlik No'nun 11 rakamdan oluştuğunu kontrol et
@@ -44,6 +47,7 @@ function validateTCKN(tcNo) {
 
 export default function HomeScreen() {
   const errors = {};
+  const dispatch = useDispatch();
   
   return (
     <ScrollView>
@@ -89,10 +93,13 @@ export default function HomeScreen() {
 
           return errors;
         }}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={(values) => {
+          // Firebase'e veriyi eklemek için dispatch kullanın
+          dispatch(addFormData(values));
+        }}
       >
         
-        {({ values, handleChange, handleSubmit, setFieldValue }) => (
+        {({ values, handleChange, handleSubmit, setFieldValue , onSubmit}) => (
           <View>
             
             <Text style={styles.label}>T.C. Kimlik No</Text>
